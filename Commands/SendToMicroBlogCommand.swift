@@ -45,10 +45,13 @@ final class SendToMicroBlogCommand: SendToCommand {
 		}
 
 		// TODO: get text from contentHTML or contentText if no title and no selectedText.
-		// TODO: consider selectedText.
 
-		let s = article.attributionString + article.linkString
-
+		var s = article.attributionString + article.linkString
+		if let blockquote = selectedText {
+			s.append("\n\n> ")
+			s.append(blockquote)
+		}
+		
 		let urlQueryDictionary = ["text": s]
 		guard let urlQueryString = urlQueryDictionary.urlQueryString() else {
 			return
